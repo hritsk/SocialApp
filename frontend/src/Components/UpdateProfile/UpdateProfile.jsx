@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./UpdateProfile.css";
 import { loadUser, updateProfile } from "../../Actions/User";
-import { useAlert } from "react-alert";
+import { useSnackbar } from "notistack";
 import Loader from "../Loader/Loader";
 
 const UpdateProfile = () => {
@@ -20,7 +20,7 @@ const UpdateProfile = () => {
   const [avatarPrev, setAvatarPrev] = useState(user.avatar.url);
 
   const dispatch = useDispatch();
-  const alert = useAlert();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -31,7 +31,6 @@ const UpdateProfile = () => {
     Reader.onload = () => {
       if (Reader.readyState === 2) {
         setAvatarPrev(Reader.result);
-
         setAvatar(Reader.result);
       }
     };
@@ -45,20 +44,21 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
 
     if (updateError) {
-      alert.error(updateError);
+      enqueueSnackbar(updateError, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
 
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" });
       dispatch({ type: "clearMessage" });
     }
-  }, [dispatch, error, alert, updateError, message]);
+  }, [dispatch, error, enqueueSnackbar, updateError, message]);
+
   return loading ? (
     <Loader />
   ) : (

@@ -1,14 +1,16 @@
 import { Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
+// ✅ Replace react-alert with notistack
+import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../Actions/User";
 import "./ForgotPassword.css";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const dispatch = useDispatch();
-  const alert = useAlert();
+  const { enqueueSnackbar } = useSnackbar(); // ✅ Use Snackbar
   const { error, loading, message } = useSelector((state) => state.like);
 
   const submitHandler = (e) => {
@@ -18,14 +20,15 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" }); // ✅ Show error
       dispatch({ type: "clearErrors" });
     }
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" }); // ✅ Show success
       dispatch({ type: "clearMessage" });
     }
-  }, [alert, error, dispatch, message]);
+  }, [error, message, dispatch, enqueueSnackbar]);
+
   return (
     <div className="forgotPassword">
       <form className="forgotPasswordForm" onSubmit={submitHandler}>

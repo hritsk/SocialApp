@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Home,
   HomeOutlined,
@@ -13,7 +13,13 @@ import {
 } from "@mui/icons-material";
 
 const Header = () => {
-  const [tab, setTab] = useState(window.location.pathname);
+  const location = useLocation();
+  const [tab, setTab] = useState(location.pathname);
+
+  useEffect(() => {
+    setTab(location.pathname);
+  }, [location.pathname]);
+
   return (
     <div className="header">
       <Link to="/" onClick={() => setTab("/")}>
@@ -21,19 +27,11 @@ const Header = () => {
       </Link>
 
       <Link to="/newpost" onClick={() => setTab("/newpost")}>
-        {tab === "/newpost" ? (
-          <Add style={{ color: "black" }} />
-        ) : (
-          <AddOutlined />
-        )}
+        {tab === "/newpost" ? <Add style={{ color: "black" }} /> : <AddOutlined />}
       </Link>
 
       <Link to="/search" onClick={() => setTab("/search")}>
-        {tab === "/search" ? (
-          <Search style={{ color: "black" }} />
-        ) : (
-          <SearchOutlined />
-        )}
+        {tab === "/search" ? <Search style={{ color: "black" }} /> : <SearchOutlined />}
       </Link>
 
       <Link to="/account" onClick={() => setTab("/account")}>

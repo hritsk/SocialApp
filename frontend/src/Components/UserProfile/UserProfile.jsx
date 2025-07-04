@@ -1,6 +1,6 @@
 import { Avatar, Button, Dialog, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
+import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -14,7 +14,7 @@ import User from "../User/User";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const alert = useAlert();
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     user,
@@ -52,38 +52,34 @@ const UserProfile = () => {
       setMyProfile(true);
     }
     if (user) {
-      user.followers.forEach((item) => {
-        if (item._id === me._id) {
-          setFollowing(true);
-        } else {
-          setFollowing(false);
-        }
-      });
+      const isFollowing = user.followers.some((item) => item._id === me._id);
+      setFollowing(isFollowing);
     }
   }, [user, me._id, params.id]);
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
 
     if (followError) {
-      alert.error(followError);
+      enqueueSnackbar(followError, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
 
     if (userError) {
-      alert.error(userError);
+      enqueueSnackbar(userError, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
+
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" });
       dispatch({ type: "clearMessage" });
     }
-  }, [alert, error, message, followError, userError, dispatch]);
+  }, [enqueueSnackbar, error, message, followError, userError, dispatch]);
 
-  return loading === true || userLoading === true ? (
+  return loading || userLoading ? (
     <Loader />
   ) : (
     <div className="account">
@@ -135,7 +131,7 @@ const UserProfile = () => {
               <Typography>{user.posts.length}</Typography>
             </div>
 
-            {myProfile ? null : (
+            {!myProfile && (
               <Button
                 variant="contained"
                 style={{ background: following ? "red" : "" }}
@@ -147,6 +143,7 @@ const UserProfile = () => {
             )}
           </>
         )}
+
         <Dialog
           open={followersToggle}
           onClose={() => setFollowersToggle(!followersToggle)}

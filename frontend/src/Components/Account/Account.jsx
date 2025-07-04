@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Account.css";
-import { useAlert } from "react-alert";
+// ✅ Replace useAlert with useSnackbar
+import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteMyProfile, getMyPosts, logoutUser } from "../../Actions/User";
 import Loader from "../Loader/Loader";
@@ -11,16 +12,16 @@ import User from "../User/User";
 
 const Account = () => {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar(); // ✅ notistack hook
   const { user, loading: userLoading } = useSelector((state) => state.user);
-  const alert = useAlert();
   const { loading, error, posts } = useSelector((state) => state.myPosts);
-  const { error: likeError, message, loading: deleteLoading} = useSelector((state) => state.like);
+  const { error: likeError, message, loading: deleteLoading } = useSelector((state) => state.like);
   const [followersToggle, setFollowersToggle] = useState(false);
   const [followingToggle, setFollowingToggle] = useState(false);
 
   const logoutHandler = () => {
     dispatch(logoutUser());
-    alert.success("Logged out Successfully");
+    enqueueSnackbar("Logged out Successfully", { variant: "success" }); // ✅ replaced alert
   };
 
   const deleteProfileHandler = async () => {
@@ -34,18 +35,18 @@ const Account = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" }); // ✅ replaced alert
       dispatch({ type: "clearErrors" });
     }
     if (likeError) {
-      alert.error(likeError);
+      enqueueSnackbar(likeError, { variant: "error" }); // ✅ replaced alert
       dispatch({ type: "clearErrors" });
     }
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" }); // ✅ replaced alert
       dispatch({ type: "clearMessage" });
     }
-  }, [alert, error, message, likeError, dispatch]);
+  }, [error, likeError, message, dispatch, enqueueSnackbar]);
 
   if (loading || userLoading) {
     return <Loader />;
@@ -108,7 +109,7 @@ const Account = () => {
         <Link to="/update/profile">Edit Profile</Link>
         <Link to="/update/password">Change Password</Link>
 
-         <Button
+        <Button
           variant="text"
           style={{ color: "red", margin: "2vmax" }}
           onClick={deleteProfileHandler}
@@ -116,6 +117,7 @@ const Account = () => {
         >
           Delete My Profile
         </Button>
+
         <Dialog
           open={followersToggle}
           onClose={() => setFollowersToggle(!followersToggle)}
@@ -138,6 +140,7 @@ const Account = () => {
             )}
           </div>
         </Dialog>
+
         <Dialog
           open={followingToggle}
           onClose={() => setFollowingToggle(!followingToggle)}

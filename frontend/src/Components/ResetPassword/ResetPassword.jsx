@@ -1,16 +1,17 @@
-
 import { Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { resetPassword } from "../../Actions/User";
+import { useSnackbar } from "notistack";
 import "./ResetPassword.css";
+
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const dispatch = useDispatch();
-  const alert = useAlert();
+  const { enqueueSnackbar } = useSnackbar();
   const params = useParams();
+
   const { error, loading, message } = useSelector((state) => state.like);
 
   const submitHandler = (e) => {
@@ -20,14 +21,14 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" });
       dispatch({ type: "clearMessage" });
     }
-  }, [alert, error, dispatch, message]);
+  }, [enqueueSnackbar, error, message, dispatch]);
 
   return (
     <div className="resetPassword">

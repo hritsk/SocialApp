@@ -4,33 +4,32 @@ import { Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/User";
-import { useAlert } from "react-alert";
+import { useSnackbar } from "notistack"; // ✅ useSnackbar instead of useAlert
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const alert = useAlert();
+  const { enqueueSnackbar } = useSnackbar(); // ✅ snackbar instance
 
   const { error } = useSelector((state) => state.user);
   const { message } = useSelector((state) => state.like);
 
   const loginHandler = (e) => {
     e.preventDefault();
-
     dispatch(loginUser(email, password));
   };
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" });
       dispatch({ type: "clearMessage" });
     }
-  }, [alert, error, dispatch, message]);
+  }, [enqueueSnackbar, error, message, dispatch]);
 
   return (
     <div className="login">

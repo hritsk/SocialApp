@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCommentOnPost } from "../../Actions/Post";
 import { getFollowingPosts, getMyPosts } from "../../Actions/User";
 
+// ✅ Import Snackbar
+import { useSnackbar } from "notistack";
+
 const CommentCard = ({
   userId,
   name,
@@ -18,14 +21,20 @@ const CommentCard = ({
 }) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar(); // ✅ notistack hook
 
-  const deleteCommentHandle = () => {
-    dispatch(deleteCommentOnPost(postId, commentId));
+  const deleteCommentHandle = async () => {
+    try {
+      await dispatch(deleteCommentOnPost(postId, commentId));
+      enqueueSnackbar("Comment deleted successfully", { variant: "success" });
 
-    if (isAccount) {
-      dispatch(getMyPosts());
-    } else {
-      dispatch(getFollowingPosts());
+      if (isAccount) {
+        dispatch(getMyPosts());
+      } else {
+        dispatch(getFollowingPosts());
+      }
+    } catch (error) {
+      enqueueSnackbar("Failed to delete comment", { variant: "error" });
     }
   };
 

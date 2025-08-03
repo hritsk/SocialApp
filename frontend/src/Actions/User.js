@@ -6,7 +6,7 @@ export const loginUser = (email, password)=>async(dispatch)=>{
     });
 
     const {data} = await axios.post(
-      "/api/V1/login",
+      `${process.env.REACT_APP_API_URL}/api/V1/login`,
       {email,password},
       {
         headers:{
@@ -31,7 +31,7 @@ export const loadUser = () => async (dispatch) => {
       type: "LoadUserRequest",
     });
 
-    const { data } = await axios.get("/api/v1/me");
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/me`);
 
     dispatch({
       type: "LoadUserSuccess",
@@ -49,7 +49,7 @@ export const getFollowingPosts = () => async (dispatch) => {
     dispatch({
       type: "postOfFollowingRequest",
     });
-    const{data} = await axios.get("/api/v1/posts");
+    const{data} = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/posts`);
     dispatch({
       type: "postOfFollowingSuccess",
       payload: data.posts,
@@ -67,7 +67,7 @@ export const getMyPosts = () => async (dispatch) => {
     dispatch({
       type: "myPostsRequest",
     });
-    const{data} = await axios.get("/api/v1/my/posts");
+    const{data} = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/my/posts`);
     dispatch({
       type: "myPostsSuccess",
       payload: data.posts,
@@ -85,7 +85,7 @@ export const getAllUsers = (name = "") => async (dispatch) => {
     dispatch({
       type: "allUsersRequest",
     });
-    const{data} = await axios.get(`/api/v1/users?name=${name}`);
+    const{data} = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/users?name=${name}`);
     dispatch({
       type: "allUsersSuccess",
       payload: data.users,
@@ -104,7 +104,7 @@ export const logoutUser = () => async (dispatch) => {
       type: "LogoutUserRequest",
     });
 
-    await axios.get("/api/v1/logout");
+    await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/logout`);
 
     dispatch({
       type: "LogoutUserSuccess",
@@ -123,7 +123,7 @@ export const RegisterUser = (name, email, password, avatar)=>async(dispatch)=>{
     });
 
     const {data} = await axios.post(
-      "/api/V1/register",
+      `${process.env.REACT_APP_API_URL}/api/V1/register`,
       {name, email, password, avatar},
       {
         headers:{
@@ -150,7 +150,7 @@ export const updateProfile = (name, email, avatar)=>async(dispatch)=>{
     });
 
     const {data} = await axios.put(
-      "/api/V1/update/profile",
+      `${process.env.REACT_APP_API_URL}/api/V1/update/profile`,
       {name, email, avatar},
       {
         headers:{
@@ -178,7 +178,7 @@ export const updatePassword =
       });
 
       const { data } = await axios.put(
-        "/api/v1/update/password",
+        `${process.env.REACT_APP_API_URL}/api/v1/update/password`,
         { oldPassword, newPassword },
         {
           headers: {
@@ -205,7 +205,7 @@ export const updatePassword =
       type: "deleteProfileRequest",
     });
 
-    const { data } = await axios.delete("/api/v1/delete/me");
+    const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/delete/me`);
 
     dispatch({
       type: "deleteProfileSuccess",
@@ -226,7 +226,7 @@ export const forgotPassword = (email) => async (dispatch) => {
     });
 
     const { data } = await axios.post(
-      "/api/v1/forgot/password",
+      `${process.env.REACT_APP_API_URL}/api/v1/forgot/password`,
       {
         email,
       },
@@ -256,7 +256,7 @@ export const resetPassword = (token, password) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `/api/v1/password/reset/${token}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/password/reset/${token}`,
       {
         password,
       },
@@ -285,7 +285,7 @@ export const getUserPosts = (id) => async (dispatch) => {
       type: "userPostsRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/userposts/${id}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/userposts/${id}`);
     dispatch({
       type: "userPostsSuccess",
       payload: data.posts,
@@ -304,7 +304,7 @@ export const getUserProfile = (id) => async (dispatch) => {
       type: "userProfileRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/user/${id}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/user/${id}`);
     dispatch({
       type: "userProfileSuccess",
       payload: data.user,
@@ -323,7 +323,7 @@ export const followAndUnfollowUser = (id) => async (dispatch) => {
       type: "followUserRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/follow/${id}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/follow/${id}`);
     dispatch({
       type: "followUserSuccess",
       payload: data.message,

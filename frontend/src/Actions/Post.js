@@ -6,7 +6,7 @@ export const likePost = (id) => async (dispatch) => {
       type: "likeRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/post/${id}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/post/${id}`);
     dispatch({
       type: "likeSuccess",
       payload: data.message,

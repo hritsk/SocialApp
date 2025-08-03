@@ -17,7 +17,6 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Search from './Components/Search/Search';
 import NotFound from './Components/Notfound/Notfound';
 
-// 🆕 Add this import
 import { SnackbarProvider } from 'notistack';
 
 function App() {
@@ -40,14 +39,14 @@ function App() {
         <Routes>
           <Route path='/' element={isAuthenticated ? <Home /> : <Login />} />
           <Route path='/account' element={isAuthenticated ? <Account /> : <Login />} />
-          <Route path='/register' element={isAuthenticated ? <Account /> : <Register />} />
+          <Route path='/register' element={isAuthenticated ? <Home /> : <Register />} />
           <Route path='/newpost' element={isAuthenticated ? <NewPost /> : <Login />} />
           <Route path='/update/profile' element={isAuthenticated ? <UpdateProfile /> : <Login />} />
           <Route path='/update/password' element={isAuthenticated ? <UpdatePassword /> : <Login />} />
-          <Route path='/forgot/password' element={isAuthenticated ? <UpdatePassword /> : <ForgotPassword />} />
-          <Route path='/password/reset/:token' element={isAuthenticated ? <UpdatePassword /> : <ResetPassword />} />
+          <Route path='/forgot/password' element={isAuthenticated ? <Home /> : <ForgotPassword />} />
+          <Route path='/password/reset/:token' element={isAuthenticated ? <Home /> : <ResetPassword />} />
           <Route path='/user/:id' element={isAuthenticated ? <UserProfile /> : <Login />} />
-          <Route path='/search' element={<Search />} />
+          <Route path='/search' element={isAuthenticated ? <Search /> : <Login />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Router>

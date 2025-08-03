@@ -16,6 +16,8 @@ app.use(cookieParser());
 
 const post = require("./routes/post");
 const user = require("./routes/user");
+const cors = require("cors");
+app.use(cors());
 
 app.use("/api/v1", post);
 app.use("/api/v1", user);

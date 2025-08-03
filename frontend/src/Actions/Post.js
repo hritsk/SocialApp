@@ -14,7 +14,7 @@ export const likePost = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "likeFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -25,7 +25,7 @@ export const addCommentOnPost = (id,comment) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `/api/v1/post/comment/${id}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/post/comment/${id}`,
       {
         comment,
       },
@@ -46,7 +46,7 @@ export const addCommentOnPost = (id,comment) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "addCommentFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -57,7 +57,7 @@ export const deleteCommentOnPost = (id,commentId) => async (dispatch) => {
     });
 
     const { data } = await axios.delete(
-      `/api/v1/post/comment/${id}`,{
+      `${process.env.REACT_APP_API_URL}/api/v1/post/comment/${id}`,{
         data:commentId,
       }
     );
@@ -72,7 +72,7 @@ export const deleteCommentOnPost = (id,commentId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deleteCommentFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -83,7 +83,7 @@ export const createNewPost = (caption, image) => async (dispatch) => {
     });
 
     const { data } = await axios.post(
-      `/api/v1/post/upload`,
+      `${process.env.REACT_APP_API_URL}/api/v1/post/upload`,
       {
         caption,
         image,
@@ -101,7 +101,7 @@ export const createNewPost = (caption, image) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "newPostFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -113,7 +113,7 @@ export const updatePost = (caption, id) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `/api/v1/post/${id}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/post/${id}`,
       {
         caption,
       },
@@ -130,7 +130,7 @@ export const updatePost = (caption, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "updateCaptionFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -141,7 +141,7 @@ export const deletePost = (id) => async (dispatch) => {
       type: "deletePostRequest",
     });
 
-    const { data } = await axios.delete(`/api/v1/post/${id}`);
+    const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/post/${id}`);
     dispatch({
       type: "deletePostSuccess",
       payload: data.message,
@@ -149,7 +149,7 @@ export const deletePost = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deletePostFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };

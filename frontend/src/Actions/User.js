@@ -21,7 +21,7 @@ export const loginUser = (email, password)=>async(dispatch)=>{
     } catch (error) {
         dispatch({
             type:"LoginFailure",
-            payload:error.response.data.message,
+            payload:error.response?.data?.message || error.message || "Something went wrong",
         });
     }
 };
@@ -40,7 +40,7 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LoadUserFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -58,7 +58,7 @@ export const getFollowingPosts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "postOfFollowingFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -76,7 +76,7 @@ export const getMyPosts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "myPostsFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -94,7 +94,7 @@ export const getAllUsers = (name = "") => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "allUsersFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -138,7 +138,7 @@ export const RegisterUser = (name, email, password, avatar)=>async(dispatch)=>{
     } catch (error) {
         dispatch({
             type:"RegisterFailure",
-            payload:error.response.data.message,
+            payload:error.response?.data?.message || error.message || "Something went wrong",
         });
     }
 };
@@ -165,7 +165,7 @@ export const updateProfile = (name, email, avatar)=>async(dispatch)=>{
     } catch (error) {
         dispatch({
             type:"updateProfileFailure",
-            payload:error.response.data.message,
+            payload:error.response?.data?.message || error.message || "Something went wrong",
         });
     }
 };
@@ -194,7 +194,7 @@ export const updatePassword =
     } catch (error) {
       dispatch({
         type: "updatePasswordFailure",
-        payload: error.response.data.message,
+        payload: error.response?.data?.message || error.message || "Something went wrong",
       });
     }
   };
@@ -214,7 +214,7 @@ export const updatePassword =
   } catch (error) {
     dispatch({
       type: "deleteProfileFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -244,7 +244,7 @@ export const forgotPassword = (email) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "forgotPasswordFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -274,7 +274,7 @@ export const resetPassword = (token, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "resetPasswordFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -293,7 +293,7 @@ export const getUserPosts = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "userPostsFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -312,7 +312,7 @@ export const getUserProfile = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "userProfileFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };
@@ -331,7 +331,7 @@ export const followAndUnfollowUser = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "followUserFailure",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Something went wrong",
     });
   }
 };

@@ -18,6 +18,7 @@ const Account = () => {
   const { error: likeError, message, loading: deleteLoading } = useSelector((state) => state.like);
   const [followersToggle, setFollowersToggle] = useState(false);
   const [followingToggle, setFollowingToggle] = useState(false);
+  const safePosts = Array.isArray(posts) ? posts : [];
 
   const logoutHandler = () => {
     dispatch(logoutUser());
@@ -60,7 +61,7 @@ const Account = () => {
     <div className="account">
       <div className="accountleft">
         {posts && posts.length > 0 ? (
-          posts.map((post) => (
+          safePosts.map((post) => (
             <Post
               key={post?._id}
               postId={post?._id}

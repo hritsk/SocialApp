@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://social-hmijgpgur-hritsks-projects.vercel.app"
+  "https://social-app-g7t6-8kn2yquhp-hritsks-projects.vercel.app"
 ];
 const cors = require("cors");
 app.use(cors({

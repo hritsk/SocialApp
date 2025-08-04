@@ -14,20 +14,27 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://vercel.com/new/hritsks-projects/success?developer-id=&external-id=&redirect-url=&branch=main&deploymentUrl=social-9akc6jjk0-hritsks-projects.vercel.app&projectName=social-app&s=https%3A%2F%2Fgithub.com%2Fhritsk%2FSocialApp&gitOrgLimit=&hasTrialAvailable=1&totalProjects=1&flow-id=_NKb0pL49Da8bfjooSoJs"
+  "https://social-hmijgpgur-hritsks-projects.vercel.app"
 ];
 const cors = require("cors");
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
-
 
 const post = require("./routes/post");
 const user = require("./routes/user");
 
 app.use("/api/v1", post);
 app.use("/api/v1", user);
+
+
 
 
 

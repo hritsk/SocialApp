@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Typography, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePassword } from "../../Actions/User";
-import { useAlert } from "react-alert";
+import { useSnackbar } from 'notistack';
 
 const UpdatePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const dispatch = useDispatch();
-  const alert = useAlert();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { error, loading, message } = useSelector((state) => state.like);
 
@@ -21,16 +21,15 @@ const UpdatePassword = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      enqueueSnackbar(error, { variant: "error" });
       dispatch({ type: "clearErrors" });
     }
 
     if (message) {
-      alert.success(message);
+      enqueueSnackbar(message, { variant: "success" });
       dispatch({ type: "clearMessage" });
     }
-  }, [dispatch, error, alert, message]);
-
+  }, [dispatch, error, enqueueSnackbar, message]);
   return (
     <div className="updatePassword">
       <form className="updatePasswordForm" onSubmit={submitHandler}>

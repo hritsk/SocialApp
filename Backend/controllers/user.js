@@ -27,6 +27,8 @@ exports.register = async(req, res)=>{
         const options = {
             expires:new Date(Date.now()+90*24*60*60*1000),
             httpOnly: true,
+            secure: true,
+            sameSite: "None",
         };
 
         res.status(201).cookie("token",token, options).json({
@@ -64,6 +66,8 @@ exports.login = async(req, res)=>{
         const options = {
             expires:new Date(Date.now()+90*24*60*60*1000),
             httpOnly: true,
+            secure: true,        
+            sameSite: "none", 
         };
 
         res.status(200).cookie("token",token, options).json({
@@ -81,7 +85,7 @@ exports.login = async(req, res)=>{
 
 exports.logout = async (req,res)=>{
     try {
-        res.status(200).cookie("token",null,{expires:new Date(Date.now()),httponly:true}).json({
+        res.status(200).cookie("token",null,{expires:new Date(Date.now()),httponly:true,secure: true, sameSite: "None", }).json({
             success: true,
             message:"Logged Out",
         });

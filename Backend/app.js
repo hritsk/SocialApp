@@ -11,31 +11,18 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
-
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://social-app-g7t6-8kn2yquhp-hritsks-projects.vercel.app"
-];
 const cors = require("cors");
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+   origin: ["http://localhost:3000", "https://social-app-g7t6.vercel.app"],
+   credentials: true,
 }));
+app.options("*", cors());
 
 const post = require("./routes/post");
 const user = require("./routes/user");
 
 app.use("/api/v1", post);
 app.use("/api/v1", user);
-
-
-
 
 
 module.exports = app;
